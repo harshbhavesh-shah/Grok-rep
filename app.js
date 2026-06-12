@@ -276,17 +276,50 @@ async function sendPrompt() {
         // Spin up the Gemini fluid mesh background animation
         if (container) container.classList.add('ai-thinking');
 
-        // FIX: Only one single, non-conflicting declaration of our API return token
+        // Fetch the raw response directly from the automated loophole channels
         const aiResponseText = await executeGrokCallWithTokenRotation(payloadMessages);
         
-        // Terminate animations cleanly on network completion
+        // Terminate header loading animations cleanly 
         if (container) container.classList.remove('ai-thinking');
         if (thinkingDiv) thinkingDiv.remove(); 
+
+        // CREATE STREAMING TARGET NODE: Injects an organic typing container straight into the active DOM
+        const aiMessageDiv = document.createElement('div');
+        aiMessageDiv.className = "message ai";
+        aiMessageDiv.innerHTML = `<div class="message-content"><strong>Grok:</strong><br><span class="stream-text"></span></div>`;
+        if (feed) feed.appendChild(aiMessageDiv);
+
+        const streamSpan = aiMessageDiv.querySelector('.stream-text');
         
-        activeChat.context.push({ role: "assistant", content: aiResponseText });
-        
-        await saveChatToCloud(activeChat.id, activeChat.title, activeChat.context);
-        renderMessages();
+        // Split text payload by spaces while fully preserving formatting and indentations
+        const words = aiResponseText.split(/(\s+)/);
+        let wordIndex = 0;
+
+        // HIGH-VELOCITY VISUAL STREAM ENGINE
+        function streamNextWord() {
+            if (wordIndex < words.length) {
+                // Append text chunk safely to avoid layout clipping or HTML script vectors
+                streamSpan.textContent += words[wordIndex];
+                wordIndex++;
+                
+                // Track view alignment dynamically so scrolling stays perfectly sticky to your thumbs
+                if (feed) feed.scrollTop = feed.scrollHeight;
+                
+                // 15ms pace mimic's high-refresh rate native application word rendering loops
+                setTimeout(streamNextWord, 15);
+            } else {
+                // STREAM TERMINATED: Commit text logs up to your Firebase document cluster
+                activeChat.context.push({ role: "assistant", content: aiResponseText });
+                saveChatToCloud(activeChat.id, activeChat.title, activeChat.context);
+                
+                // Master execution refresh to register TTS and Regenerate touch targets cleanly
+                renderMessages();
+            }
+        }
+
+        // Initialize the stream animation sequencer
+        streamNextWord();
+
     } catch (error) {
         if (container) container.classList.remove('ai-thinking');
         if (thinkingDiv) thinkingDiv.remove();
