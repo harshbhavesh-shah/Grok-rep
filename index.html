@@ -1,68 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Private Grok Workspace</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.json">
-
 <body>
 
     <div class="app-container">
-    <div id="auroraGlow" class="aurora-bg"></div>
+        <div id="auroraGlow" class="aurora-bg"></div>
 
-    <div class="chat-container">
-        <div class="chat-header">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <h2>Grok 4.1</h2>
-                <span class="model-badge">XAI Cluster</span>
-            </div>
-            
-            <button id="themeToggleBtn" class="action-btn" title="Toggle Theme">
-                <i class="fa-solid fa-palette"></i> Theme
+        <div class="sidebar">
+            <button id="newChatBtn" class="new-chat-btn">
+                <i class="fa-solid fa-plus"></i> New Chat
             </button>
+            <div class="chat-history" id="chatHistoryList">
+                </div>
+            <div class="sidebar-footer">
+                <div class="memory-toggle">
+                    <span><i class="fa-solid fa-brain"></i> Context Memory</span>
+                    <label class="switch">
+                        <input type="checkbox" id="memoryToggle" checked>
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
         </div>
 
-        <div class="message-feed" id="messageFeed">
-            </div>
-
-        <div class="chat-input-area">
-            <div class="input-wrapper">
-                <textarea id="userInput" placeholder="Ask Grok..." rows="1"></textarea>
-                <button id="sendBtn" class="send-btn">
-                    <i class="fa-solid fa-arrow-up"></i>
+        <div class="chat-container">
+            <div class="chat-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <h2>Grok 4.1</h2>
+                    <span class="model-badge">XAI Cluster</span>
+                </div>
+                
+                <button id="themeToggleBtn" class="action-btn" title="Toggle Theme">
+                    <i class="fa-solid fa-palette"></i> Theme
                 </button>
             </div>
-        </div>
-    </div>
-</div>
-        </aside>
-
-        <main class="chat-container">
-            <header class="chat-header">
-                <h2 id="currentChatTitle">Grok 4.1</h2>
-                <div class="model-badge">XAI Cluster</div>
-            </header>
 
             <div class="message-feed" id="messageFeed">
                 </div>
 
-            <footer class="chat-input-area">
+            <div class="chat-input-area">
                 <div class="input-wrapper">
-                    <textarea id="userInput" rows="1" placeholder="Type your roleplay or creative scene here..."></textarea>
-                    <button class="send-btn" id="sendBtn">
+                    <textarea id="userInput" placeholder="Ask Grok..." rows="1"></textarea>
+                    <button id="sendBtn" class="send-btn">
                         <i class="fa-solid fa-arrow-up"></i>
                     </button>
                 </div>
-            </footer>
-        </main>
+            </div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
