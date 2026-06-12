@@ -15,13 +15,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// SYSTEM PERSONA: Restored the vital structural prompt configuration missing from line 20
+// SYSTEM PERSONA: Your custom immersive creative writing blueprint
 const SYSTEM_PROMPT = {
     role: "system", 
     content: "You are an immersive creative writing partner. Speak organically, match the user's emotional tone, write deep descriptive prose, and never censor romantic or slice-of-life scenes."
 };
 
-// LOOPHOLE POOL: Drop your multiple free Puter account tokens here
+// LOOPHOLE POOL: Automated failover authorization keys
 const PUTER_AUTH_TOKENS = [
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InYyIn0.eyJ0IjoidCIsInYiOiIyIiwidG9rZW5fdWlkIjoiYjEyMjJlYjYtNjg5YS00OWNkLTk5OTEtYTkwOGVlOTg1MmMxIiwidXUiOiJXaVVISkRaelRCS0pHcjhMOVBQdmlnPT0iLCJzdSI6IkNQNkU4dGMvUUJ1dC9GL096K2U1VUE9PSIsImFpIjoiV2lVSEpEWnpUQktKR3I4TDlQUHZpZz09IiwiZnVsbF9hY2Nlc3MiOnRydWUsImlhdCI6MTc4MTI1NzQxMX0.jQOpJ0DJDRGXRd5sf4882lHZo6kXD33CcBteGyN4Gsc"
 ];
@@ -58,7 +58,7 @@ function syncChatsFromCloud() {
             });
         });
 
-        // SELF-HEALING ENFORCER: If the repo connection opens but finds a blank database, kickstart a canvas
+        // SELF-HEALING ENFORCER: Provision a default canvas if the cloud matrix is empty
         if (chats.length === 0) {
             console.log("[Cloud Database] Empty cloud layer detected. Provisioning starting scene...");
             createNewChat();
@@ -90,7 +90,7 @@ async function saveChatToCloud(chatId, title, contextArray) {
 }
 
 // ==========================================
-// 3. CORE MULTI-CHAT CORE ACTIONS
+// 3. CORE MULTI-CHAT ACTIONS
 // ==========================================
 
 function createNewChat() {
@@ -191,15 +191,6 @@ function setupUIEventListeners() {
     const sendBtn = document.getElementById('sendBtn');
     const newChatBtn = document.getElementById('newChatBtn');
     const themeBtn = document.getElementById('themeToggleBtn');
-    if (themeBtn) {
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            document.documentElement.setAttribute('data-theme', targetTheme);
-            console.log(`[UI Canvas] Style theme re-mapped to: ${targetTheme}`);
-        });
-    }
 
     if (textarea) {
         textarea.addEventListener("input", function() {
@@ -217,6 +208,15 @@ function setupUIEventListeners() {
 
     if (sendBtn) sendBtn.addEventListener("click", sendPrompt);
     if (newChatBtn) newChatBtn.addEventListener("click", createNewChat);
+    
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            console.log(`[UI Canvas] Style theme re-mapped to: ${targetTheme}`);
+        });
+    }
 }
 
 function attachMessageActionListeners() {
@@ -234,7 +234,6 @@ function attachMessageActionListeners() {
     });
 }
 
-// Basic security protection layout
 function escapeHtml(text) {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -271,29 +270,25 @@ async function sendPrompt() {
     }
 
     const payloadMessages = useMemory ? activeChat.context : [SYSTEM_PROMPT, { role: "user", content: userText }];
+    const container = document.querySelector('.app-container');
 
     try {
-            // Filter context weight depending on memory toggle configuration state
-        const payloadMessages = useMemory ? activeChat.context : [SYSTEM_PROMPT, { role: "user", content: userText }];
-
-        // Target the absolute outer shell layout wrapper
-        const container = document.querySelector('.app-container');
-        // FIX: Active the Gemini liquid aurora mesh animation sequence
+        // Spin up the Gemini fluid mesh background animation
         if (container) container.classList.add('ai-thinking');
 
+        // FIX: Only one single, non-conflicting declaration of our API return token
         const aiResponseText = await executeGrokCallWithTokenRotation(payloadMessages);
         
-        const aiResponseText = await executeGrokCallWithTokenRotation(payloadMessages);
-        
+        // Terminate animations cleanly on network completion
+        if (container) container.classList.remove('ai-thinking');
         if (thinkingDiv) thinkingDiv.remove(); 
         
         activeChat.context.push({ role: "assistant", content: aiResponseText });
         
-        // FIX: Saved the state array to Firestore directly, removing local storage remnants
         await saveChatToCloud(activeChat.id, activeChat.title, activeChat.context);
-        
         renderMessages();
     } catch (error) {
+        if (container) container.classList.remove('ai-thinking');
         if (thinkingDiv) thinkingDiv.remove();
         
         const errorDiv = document.createElement('div');
@@ -305,9 +300,6 @@ async function sendPrompt() {
             feed.appendChild(errorDiv);
             feed.scrollTop = feed.scrollHeight;
         }
-
-        if (container) container.classList.remove('ai-thinking');
-        if (thinkingDiv) thinkingDiv.remove();
     }
 }
 
@@ -379,13 +371,11 @@ async function regenerateResponse(visibleIndex) {
     sendPrompt();
 }
 
-// Keep track of the active voice stream globally
 let loadedVoices = [];
 
 if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = () => {
         loadedVoices = window.speechSynthesis.getVoices();
-        console.log(`[TTS Engine] Dynamic Sync: ${loadedVoices.length} voices loaded.`);
     };
 }
 
@@ -424,7 +414,6 @@ async function speakText(buttonElement) {
         window.currentActiveAudio = audio;
         
         buttonElement.innerHTML = `<i class="fa-solid fa-volume-high"></i> Playing...`;
-        
         audio.play();
         
         audio.onended = () => {
