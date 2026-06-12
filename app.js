@@ -58,14 +58,13 @@ function syncChatsFromCloud() {
             });
         });
 
-        // FIX: If the cloud has no records, immediately provision a fresh scene array
+        // SELF-HEALING ENFORCER: If the repo connection opens but finds a blank database, kickstart a canvas
         if (chats.length === 0) {
-            console.log("[Cloud Database] Empty database cluster detected. Provisioning starting scene...");
+            console.log("[Cloud Database] Empty cloud layer detected. Provisioning starting scene...");
             createNewChat();
-            return; // Exit here; the creation call will trigger a fresh, populated snapshot stream
+            return; 
         }
 
-        // Set active tab fallback if running for the first time
         if (chats.length > 0 && !activeChatId) {
             activeChatId = chats[0].id;
         }
