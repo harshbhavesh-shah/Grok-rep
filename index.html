@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Grok Workspace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <button class="new-chat-btn" id="newChatBtn">
+                <i class="fa-solid fa-plus"></i> New Chat
+            </button>
+            
+            <div class="chat-history" id="chatHistoryList"></div>
+            
+            <div class="sidebar-footer">
+                <div class="memory-toggle">
+                    <span><i class="fa-solid fa-brain"></i> Context Memory</span>
+                    <label class="switch">
+                        <input type="checkbox" id="memoryToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <main class="chat-container">
+            <header class="chat-header">
+                <h2 id="currentChatTitle">Grok 4.1</h2>
+                <div class="model-badge">XAI Cluster</div>
+            </header>
+
+            <div class="message-feed" id="messageFeed">
+                </div>
+
+            <footer class="chat-input-area">
+                <div class="input-wrapper">
+                    <textarea id="userInput" rows="1" placeholder="Type your roleplay or creative scene here..."></textarea>
+                    <button class="send-btn" id="sendBtn">
+                        <i class="fa-solid fa-arrow-up"></i>
+                    </button>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
