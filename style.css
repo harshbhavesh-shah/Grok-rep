@@ -327,11 +327,56 @@ input:checked + .slider:before { transform: translateX(18px); }
 }
 
 /* ==========================================
-   ONEPLUS 13 RESPONSIVE MOBILE OVERRIDES
+   ONEPLUS 13 RESPONSIVE MOBILE DRAWERS
    ========================================== */
+.menu-toggle-btn {
+    display: none; /* Invisible on desktop screens */
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (max-width: 768px) {
+    /* 1. Turn the sidebar into a hidden slide-out sheet */
+    .sidebar { 
+        display: flex !important; /* Force override display none */
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        height: 100vh; 
+        height: -webkit-fill-available; 
+        width: 280px; 
+        z-index: 999; /* Float above everything else */
+        transform: translateX(-100%); /* Stash completely off-screen */
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        background: rgba(10, 10, 12, 0.85);
+        backdrop-filter: blur(25px) saturate(180%);
+        -webkit-backdrop-filter: blur(25px) saturate(180%);
+    }
+
+    /* Light mode background modifier for mobile clarity */
+    [data-theme="light"] .sidebar {
+        background: rgba(240, 242, 247, 0.9);
+    }
+
+    /* 2. Slide the sheet into view when flagged active */
+    .sidebar.open { 
+        transform: translateX(0); 
+        box-shadow: 30px 0 60px rgba(0, 0, 0, 0.4);
+    }
+
+    /* 3. Wake up the hamburger trigger asset */
+    .menu-toggle-btn { 
+        display: flex; 
+    }
+
+    /* 4. Standard structural padding optimizations */
     .app-container { height: 100vh; height: -webkit-fill-available; width: 100vw; border-radius: 0; border: none; position: fixed; top: 0; left: 0; }
-    .sidebar { display: none; }
     .chat-header { padding: 0 1rem; height: 56px; }
     .message, .chat-input-area { padding-left: 1rem; padding-right: 1rem; }
     .message-content { font-size: 0.98rem; }

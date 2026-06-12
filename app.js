@@ -110,6 +110,14 @@ function switchChat(id) {
 
 function deleteChat(id, event) {
     event.stopPropagation();
+    activeChatId = id;
+    
+    // Automatically retract sidebar on mobile selections
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+
+    renderSidebar();
+    renderMessages();
 
     db.collection("roleplays").doc(id).delete().then(() => {
         console.log("[Cloud Database] Scene purged from data cells.");
@@ -215,6 +223,24 @@ function setupUIEventListeners() {
             const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', targetTheme);
             console.log(`[UI Canvas] Style theme re-mapped to: ${targetTheme}`);
+        });
+    }
+
+    const menuBtn = document.getElementById('menuToggleBtn');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Block window bubbling rules
+            sidebar.classList.toggle('open');
+            console.log("[UI Engine] Mobile drawer track shifted.");
+        });
+
+        // Close the panel automatically if you tap outside the sidebar area
+        document.addEventListener('click', (e) => {
+            if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn) {
+                sidebar.classList.remove('open');
+            }
         });
     }
 }
