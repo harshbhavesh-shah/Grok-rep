@@ -191,6 +191,16 @@ function setupUIEventListeners() {
     const textarea = document.getElementById('userInput');
     const sendBtn = document.getElementById('sendBtn');
     const newChatBtn = document.getElementById('newChatBtn');
+    const themeBtn = document.getElementById('themeToggleBtn');
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const targetTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', targetTheme);
+            console.log(`[UI Canvas] Style theme re-mapped to: ${targetTheme}`);
+        });
+    }
 
     if (textarea) {
         textarea.addEventListener("input", function() {
@@ -264,6 +274,16 @@ async function sendPrompt() {
     const payloadMessages = useMemory ? activeChat.context : [SYSTEM_PROMPT, { role: "user", content: userText }];
 
     try {
+            // Filter context weight depending on memory toggle configuration state
+        const payloadMessages = useMemory ? activeChat.context : [SYSTEM_PROMPT, { role: "user", content: userText }];
+
+        // Target the absolute outer shell layout wrapper
+        const container = document.querySelector('.app-container');
+        // FIX: Active the Gemini liquid aurora mesh animation sequence
+        if (container) container.classList.add('ai-thinking');
+
+        const aiResponseText = await executeGrokCallWithTokenRotation(payloadMessages);
+        
         const aiResponseText = await executeGrokCallWithTokenRotation(payloadMessages);
         
         if (thinkingDiv) thinkingDiv.remove(); 
@@ -286,6 +306,9 @@ async function sendPrompt() {
             feed.appendChild(errorDiv);
             feed.scrollTop = feed.scrollHeight;
         }
+
+        if (container) container.classList.remove('ai-thinking');
+        if (thinkingDiv) thinkingDiv.remove();
     }
 }
 
