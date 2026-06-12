@@ -1,0 +1,10 @@
+{
+  "name": "Grok Private Workspace",
+  "short_name": "Grok Space",
+  "start_url": "index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#060608",
+  "theme_color": "#060608",
+  "description": "Custom liquid glass cloud-synced roleplay dashboard."
+}
